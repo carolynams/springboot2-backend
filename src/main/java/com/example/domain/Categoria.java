@@ -49,6 +49,8 @@ public class Categoria implements Serializable {
 		return result;
 	}
 
+	/* Metodo de comparação entre o ID */
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
