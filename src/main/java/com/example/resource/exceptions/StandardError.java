@@ -2,7 +2,7 @@ package com.example.resource.exceptions;
 
 import java.io.Serializable;
 
-public class StandartError implements Serializable {
+public class StandardError implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -10,7 +10,7 @@ public class StandartError implements Serializable {
 	private String msg;
 	private Long timeStamp;
 
-	public StandartError(Integer status, String msg, Long timeStamp) {
+	public StandardError(Integer status, String msg, Long timeStamp) {
 		super();
 		this.status = status;
 		this.msg = msg;
