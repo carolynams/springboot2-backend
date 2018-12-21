@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +39,8 @@ public class CategoriaResource {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria objeto) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objetoDTO) {
+		Categoria objeto = categoriaService.fromDTO(objetoDTO);
 		objeto = categoriaService.insert(objeto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objeto.getId()).toUri();
 
@@ -46,7 +49,9 @@ public class CategoriaResource {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Categoria objeto, @PathVariable Integer id) {
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objetoDTO, @PathVariable Integer id) {
+		Categoria objeto = categoriaService.fromDTO(objetoDTO);
+
 		objeto.setId(id);
 		objeto = categoriaService.update(objeto);
 
@@ -71,8 +76,7 @@ public class CategoriaResource {
 	}
 
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public ResponseEntity<Page<CategoriaDTO>> findPage(
-			@RequestParam(value = "page", defaultValue = "0") Integer page,
+	public ResponseEntity<Page<CategoriaDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
